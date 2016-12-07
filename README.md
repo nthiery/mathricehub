@@ -28,17 +28,16 @@ pip3 install --upgrade pip setuptools
 pip3 install jupyterhub notebook
 npm install -g configurable-http-proxy
 
-# Test
+# Test: now we can connect with any local UNIX account
 
 jupyterhub
 
-# now we can connect with any local UNIX account
+# Start tweaking the configuration
+# Reference: https://jupyterhub-tutorial.readthedocs.io/
 
 mkdir /mnt/vdb/mathricehub/
 cd /mnt/vdb/mathricehub/
 jupyterhub --generate-config
-
-# https://jupyterhub-tutorial.readthedocs.io/en/latest/
 
 # Setup SSL (self-signed certificate for now)
 
