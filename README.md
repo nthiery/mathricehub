@@ -12,7 +12,7 @@ Log on the future jupyterhub host:
 
     ssh root@jupyterhub
 
-Check the persistent directory
+Check the persistent directory:
 
     root@ubuntu:~# ls
     root@ubuntu:~# df -h
@@ -35,11 +35,11 @@ References: https://www.digitalocean.com/community/tutorials/how-to-install-node
     pip3 install jupyterhub notebook
     npm install -g configurable-http-proxy
 
-## Test: now we can connect with any local UNIX account
+## First Test: now we can connect with any local UNIX account
 
     jupyterhub
 
-## Start tweaking the configuration
+## Setup OAuth authentication
 
 Reference: https://jupyterhub-tutorial.readthedocs.io/
 
@@ -47,27 +47,29 @@ Reference: https://jupyterhub-tutorial.readthedocs.io/
     cd /mnt/vdb/mathricehub/
     jupyterhub --generate-config
 
-## Setup SSL (self-signed certificate for now)
+Setup SSL (self-signed certificate for now):
 
     openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mykey.key -out mycert.pem
     # Specify 157.136.240.21:8080 as IP address
 
-## Setup OAuth authentication
+Install OAuth:
 
-    < edit config file ... >
     pip3 install oauthenticator
 
 ### First experiment: setup OAuth with github
 
 Reference: https://github.com/jupyterhub/oauthenticator
 
-### Second experiment: setup OAuth with mathrice
+[Config file](jupyterhub_config-github.py)
 
-Create an authenticator class in mathrice.py, inspired from the github authenticator class
+### Second experiment: setup OAuth with mathrice
 
 Reference: mathrice OAuth https://plm.wiki.math.cnrs.fr/servicesnumeriques/identites/oauth2
 
+Create an authenticator class in [mathrice.py](mathrice.py), inspired
+from the github authenticator class.
 
+[Config file](jupyterhub_config.py)
 
 ## Install Sage
 
