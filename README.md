@@ -1,66 +1,81 @@
 # Shared notes and files for deploying a Jupyterhub+Sage on Mathrice
 
+## Host configuration
+
 Ubuntu 16.4, 4Gb, 2 cpus
 
-ssh mathricehub
+Log on the entry-point machine:
 
-ssh root@jupyterhub
+    ssh mathricehub
 
-root@ubuntu:~# ls
-root@ubuntu:~# df -h
-Filesystem      Size  Used Avail Use% Mounted on
-udev            1.9G     0  1.9G   0% /dev
-...
-/dev/vdb         49G   33M   49G   1% /mnt/vdb      # persistent directory
+Log on the future jupyterhub host:
 
-# Base stuff: Python / nodejs / ...
+    ssh root@jupyterhub
 
-# References: https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-16-04
+Check the persistent directory
 
-apt update
-apt install python3-pip
-apt install nodejs npm
-apt install nodejs-legacy # maybe; yes in fact :-)
+    root@ubuntu:~# ls
+    root@ubuntu:~# df -h
+    Filesystem      Size  Used Avail Use% Mounted on
+    ...
+    /dev/vdb         49G   33M   49G   1% /mnt/vdb
 
-apt install locales-all    # to avoid locale complaints
+## Install Base stuff: Python / nodejs / ...
 
-pip3 install --upgrade pip setuptools
-pip3 install jupyterhub notebook
-npm install -g configurable-http-proxy
+References: https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-16-04
 
-# Test: now we can connect with any local UNIX account
+    apt update
+    apt install python3-pip
+    apt install nodejs npm
+    apt install nodejs-legacy # maybe; yes in fact :-)
 
-jupyterhub
+    apt install locales-all    # to avoid locale complaints
 
-# Start tweaking the configuration
-# Reference: https://jupyterhub-tutorial.readthedocs.io/
+    pip3 install --upgrade pip setuptools
+    pip3 install jupyterhub notebook
+    npm install -g configurable-http-proxy
 
-mkdir /mnt/vdb/mathricehub/
-cd /mnt/vdb/mathricehub/
-jupyterhub --generate-config
+## Test: now we can connect with any local UNIX account
 
-# Setup SSL (self-signed certificate for now)
+    jupyterhub
 
-openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mykey.key -out mycert.pem
-# Specify 157.136.240.21:8080 as IP address
+## Start tweaking the configuration
 
-# Setup OAuth authentication
+Reference: https://jupyterhub-tutorial.readthedocs.io/
 
-< edit config file ... >
-pip3 install oauthenticator
+    mkdir /mnt/vdb/mathricehub/
+    cd /mnt/vdb/mathricehub/
+    jupyterhub --generate-config
 
-# First experiment: setup OAuth authentication with github
-# Ref: https://github.com/jupyterhub/oauthenticator
+## Setup SSL (self-signed certificate for now)
 
-# Let's go for mathrice OAuth
-# Create an authenticator class in mathrice.py, inspired from the github authenticator class
-# Reference: mathrice OAuth https://plm.wiki.math.cnrs.fr/servicesnumeriques/identites/oauth2
+    openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout mykey.key -out mycert.pem
+    # Specify 157.136.240.21:8080 as IP address
+
+## Setup OAuth authentication
+
+    < edit config file ... >
+    pip3 install oauthenticator
+
+### First experiment: setup OAuth with github
+
+Reference: https://github.com/jupyterhub/oauthenticator
+
+### Second experiment: setup OAuth with mathrice
+
+Create an authenticator class in mathrice.py, inspired from the github authenticator class
+
+Reference: mathrice OAuth https://plm.wiki.math.cnrs.fr/servicesnumeriques/identites/oauth2
 
 
 
-# Install Sage
+## Install Sage
 
-wget www-ftp.lip6.fr/pub/math/sagemath/linux/64bit/sage-7.3-Ubuntu_16.04-x86_64.tar.bz2
+    wget www-ftp.lip6.fr/pub/math/sagemath/linux/64bit/sage-7.3-Ubuntu_16.04-x86_64.tar.bz2
+    tar xf sage-7.3-Ubuntu_16.04-x86_64.tar.bz2
+    SageMath/sage
 
 
-# Install Sage kernel in host Jupyter
+Install Sage kernel in host Jupyter
+
+
