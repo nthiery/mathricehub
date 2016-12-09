@@ -64,12 +64,22 @@ Reference: https://github.com/jupyterhub/oauthenticator
 
 ### Second experiment: setup OAuth with mathrice
 
-Reference: mathrice OAuth https://plm.wiki.math.cnrs.fr/servicesnumeriques/identites/oauth2
+Reference: Mathrice OAuth https://plm.wiki.math.cnrs.fr/servicesnumeriques/identites/oauth2
+
+Request a new service on Mathrice (David)
 
 Create an authenticator class in [mathrice.py](mathrice.py), inspired
 from the github authenticator class.
 
+Create a new service on Mathrice's OAuth
+
 [Config file](jupyterhub_config.py)
+
+Status: everything was working fine up to the callback to
+JupyterHub. But then (in mathrice.py) JupyterHub makes a HTTP Request
+to Mathrice's OAuth service which was failing. Potential cause: this
+outcoming request from the JupyterHub host was firewalled (before
+this, the host needed no outgoing connections).
 
 ## Install Sage
 
