@@ -66,7 +66,10 @@ Reference: https://github.com/jupyterhub/oauthenticator
 
 Reference: Mathrice OAuth https://plm.wiki.math.cnrs.fr/servicesnumeriques/identites/oauth2
 
-Request a new service on Mathrice (David)
+Request a new service on Mathrice (done by David). Requires specific
+permissions:
+
+        https://plm.math.cnrs.fr/sp/oauth/applications/
 
 Create an authenticator class in [mathrice.py](mathrice.py), inspired
 from the github authenticator class.
